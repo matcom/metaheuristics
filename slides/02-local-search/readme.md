@@ -135,3 +135,89 @@ Sometimes, take non-exploitative steps.
 - Decrease the size of the vicinity iteratively
 - Make the probability of choosing a solution $x_j$ proportional to how good it is compared to $x_i$
 - Restart $\beta$ after some iterations stuck
+
+# Quick detour: beyond single-solution
+
+One key problem with HC and SA is that you only at one solution at a time.
+
+**What if we look at several solutions and take the best one?**
+
+- start with a random solution $x_i = x_0$
+- while not finished:
+  - sample $N$ random solutions $X_j$ _close to_ $x_i$
+  - if any $x_j \in X_j$ is such that $F(x_j) > F(x_i)$ then $x_{i+1} = x_j$
+  - else break
+- return $x^*$
+
+# Avoiding past mistakes
+
+**What are we trying to achieve with simulated annealing?**
+
+. . .
+
+Avoid local optima, by accepting bad solutions.
+
+**But who can say that we won't circle back to the same local optima?**
+
+. . .
+
+Enter **Tabu-search:** avoiding past mistakes.
+
+# Tabu search
+
+**Key idea:** Store good solutions to avoid circling back
+
+- start with a random solution $x_i = x_0$
+- initialize memory $M$
+- while not finished:
+  - sample $N$ random solutions $X_j$ not in $M$.
+  - if any $x_j \in X_j$ is such that $F(x_j) > F(x_i)$ then $x_{i+1} = x_j$
+  - else accept a random $x_j$ solution
+  - add $x_i$ to $M$
+- return $x^*$
+
+# Tabu search extensions
+
+**What can we put in the memory?**
+
+. . .
+
+- Exact solutions
+- Components of solutions
+- Steps that lead to good solutions
+
+**How long should information stay in memory?**
+
+. . .
+
+- Short-term memory for exact solutions
+- Long-term memory for more abstract patterns
+- Any level of granularity is possible
+
+. . .
+
+**Flexibilize the meaning of tabu features**
+
+Instead of forbididng solutions, penalize them according to how many tabu features they contain.
+
+# Summarizing
+
+**Key ideas in local search:**
+
+- Estimate gradients sampling from a neighborhood function
+- Select best solutions to exploit gradients
+- Accept random bad solutions to explore
+
+**How to avoid local optima:**
+
+- Accept bad solutions
+- Forbid or penalize seen solutions
+- Restart frequently
+
+**How to balance exploration/exploitation:**
+
+- Via a tradeoff parameter (e.g., probability to select bad solutions)
+
+# Time to practice
+
+![](norbert-braun-uU8n5LuzpTc-unsplash.jpg)
